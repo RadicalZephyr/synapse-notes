@@ -1,0 +1,26 @@
+Here's how the metrics system will work.
+
+There's a Web UI, written in GWT/GXT3.
+This exposes and does pretty things with the data, which is available
+from two (possibly three) sources:
+-RDS High-resolution data window
+-Amazon Cloudwatch Aggregates
+-Long-term RRD of cloudwatch aggregates*
+
+The data comes from two sources:
+-Synapse Repository Services (possibly via logs, but possibly through
+other means)
+-Synapse Crowd Server(s) (via the logs)
+
+These logs are scanned on a daily basis (could be more often if
+wanted).
+
+The scanning process will involve calling from one to three Simple
+Workflow(SWF) workers:
+-scan log data and update the RDS window
+-take data from the RDS window and update cloudwatch
+-2 week old data from cloudwatch that is still wanted into the
+ long-term RRD storage
+
+* If this third component is necessary, then it is questionable
+  whether involving cloudwatch at all is cost-effective or wanted.

@@ -1,0 +1,2 @@
+Can we refactor the tests to not need all of the silly constants, and
+the empty LoggingUtilsTestHelper class?

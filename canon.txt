@@ -1,0 +1,63 @@
+todo list:
+
+be configured (s3bucket(s) (from and to buckets), filename patterns, ...)
+look at s3 bucket for groups of files
+merge a list of files
+*extract info from a line
+get extra info from synapse
+finish a file
+push to s3
+
+to do the canonicalization via map-reduce:
+
+read in a line, output a line with key timestamp truncated to (second?,minute?
+hour?) accuracy with the full line as the value (including timestamp).  This is simple enough
+that doing it
+
+
+Timer on the rds worker
+Collate less often than pushing to s3
+Concat less often than collating
+
+Create a subproject and a library with a lib that is the
+concatentation worker.  The rds worker wires up the trigger to the lib
+triggerFunction.
+Look here: services-rds/src/main/resources/rds-sqs-manager-spb.xml
+
+
+Expire timer, do all files from that period as one file
+unconditionally.
+
+Then have a separate process that does the concatenation into larger
+chunks.
+
+Thus no persistence is necessary, and already at the collation step we
+have a big advantage.  I can implement it more incrementally too.
+
+
+-- Okay, once I have a list of files, all that functionality is in
+   place (but needs testing).  Now I need a way to generate that list
+   of files.  What I really want is a magical library that can find
+   all the similar log file names just given the list.  What I have is
+   nothing.
+
+What can I write that gets me one step closer to that goal?
+Something that does it stupidly:
+
+Takes a list of file paths, (as strings), then creates a map of type,
+to list of inputs that match it.
+
+
+Algorithm for taking a list and getting the duplicates
+-depends on representation
+but it could work like this:
+
+get list of files, iterate over files.  For each file in list, get the
+basename of the file, iterate over the rest of the files, removing all
+of the files that "match" and putting them in a list.  This is
+actually then the specification of "one job".
+
+Doing this as a SWF thing would be the right way.  Not using some kind
+of bean-counting algorithm (SQS etc.) to keep track of what jobs are
+done and which aren't, is bad...  But there's no time.
+

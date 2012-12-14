@@ -1,0 +1,35 @@
+*Log File Analysis
+** Goal is a dashboard type interface
+** Located on the Amazon Cloud
+Do you have solutions that will integrate well with this (EC2, S3)?
+
+** General Query Interface
+
+*** Natural Language processing only?
+The NLP looks quite powerful, but super specific.  
+
+**** Tell me more about the custom W|A interface
+A more structured format?
+
+**** Can we program in special knowledge?
+Is there a way to program in special knowledge about our dataset?
+(like "shark image")
+
+*** Queries that "filter" the data?
+Specifically, we want to be able to compute things like the list of
+new users, the list of users who signed up and never did anything, the
+list of users who were once active but aren't any longer.
+
+*** Save out query results/sub-queries
+What has been your's/your customer's experience with formulating
+complex queries?
+
+*** Compute the complement of a query
+
+** Data loading facilities
+*** Storage
+Can W|A use S3?
+
+*** What facilities are there for annotating the data?
+We don't want string search over our log file data, we want it to be
+curated, and structured.

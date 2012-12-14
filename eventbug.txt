@@ -1,0 +1,9 @@
+On talking about fixing the bug that bruce exposed.  We need to rip
+out all of the event handling code that follows that pattern and
+simplify it down to eventbus usage.  Then in every presenter, we can
+follow the pattern of - injecting the eventbus, then providing a
+wrapper method in the presenter class that allows you to fire an
+entity-updated event
+
+
+EntityUpdatedHandler needs to be removed!!

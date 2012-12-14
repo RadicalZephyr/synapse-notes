@@ -1,0 +1,12 @@
+Pointcut enforcment of variable ordering
+
+logging total method signature - no arg namesn
+
+use a custom binder to use a
+highly targeted pointcuts that break with sig changes
+log all the parameters
+
+pointcut everything - log it appropriately if it's known, give
+appropriate context
+-for other methods that are "unknown" log everything so we can
+conceivably process it correctly in the future.

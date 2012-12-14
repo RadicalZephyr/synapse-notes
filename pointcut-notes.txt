@@ -1,0 +1,14 @@
+BasicEntityController
+- Entity gives us all the information we could want about itself
+(path, entityid, etc.)
+
+
+Pojo's data fields are fair game for Aspect usage (once they're
+completed!)
+
+First level pointcut:
+Capture only method's that are within classes with the @Controller annotation
+@Pointcut("@within(org.springframework.stereotype.Controller.class)")
+
+capture only methods that have the annotation:
+@Pointcut("@annotation")

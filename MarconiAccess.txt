@@ -1,0 +1,21 @@
+Instructions for getting access to the Marconi network from
+Ubuntu/Linux Mint
+
+It's much simpler than the process described for gentoo.
+
+Download the Marconi.p12 certificate.
+
+Run in a terminal in the directory where the Marconi.p12 file is:
+openssl pkcs12 -out marconi.pem -in Marconi.p12
+
+It will prompt you for a password "everwhat" (minus the quotations),
+and a passphrase to apply to the new PEM key.  The passphrase may be
+left blank.
+
+Then attempt to connect with the standard wireless network
+configuration utility.
+
+A dialog box should pop up, with a whole bunch of options, the
+defaults work fine for all of them, you just need to specify the
+certificate (the marconi.pem file we generated), and your hutchnet
+user-id and password.

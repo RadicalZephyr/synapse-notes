@@ -1,0 +1,29 @@
+So the question I'm trying to answer:
+
+How many presigned url's were handed out during each month (september,
+october, november)?
+
+Each line I get in the mapper is a log line.  So I need to identify
+what the month is, then emit a key like "URL-OCT" with a number as the
+value. I also need to identify the service call.
+
+For the reducer, I want to simply aggregate.
+
+Larsson's entity should be a separate map-reduce job
+
+-emit any line that contains entity 'syn1446321' and emit that as
+key, with the whole line as value.
+No reducer.
+
+
+we have stack/instance/{date}.gz
+-lots of small (1-4kb) files
+
+start with a file of stack names, this is the value for the first
+step.
+Using nlinesInput=1, the mapper will take that value, and produce a
+set of keys that corresponds to (date, s3-file-path)
+
+Then, we can reduce this by fetching each file from s3 (via value-path),
+and then making sure it's sorted, then merging it with the output
+file, which is s3://log-name-{date}.gz

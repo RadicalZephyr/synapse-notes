@@ -1,0 +1,20 @@
+Protocol buffers probably aren't the correct solution.
+
+Maybe use them in post-etl as a by-line thing.  Probably plain text is
+better though.
+
+The ETL processor should use Bruce's new hierarchy API.  Take
+snapshots of the tree-structure of synapse.  The etlp will run in a
+separate process on the already swept logs.  It should also do
+by-date/time collation of multiple log files.  (that's easy, it's like
+a merge sort style operation (read all the log files with the same
+hour stamp, process line by line, always processing the oldest date
+out of all the files.  Memory is O(n) where n is the number of
+instance logs.
+
+For log sweeping look at the Elastic Beanstalk log sweeping
+capabilities.  Leveraging this would be ideal, but not necessarily
+feasible.  Otherwise, the log sweeper would need to rename logfiles by
+instance id or something similar.
+
+Moving to logback isn't necessary and it's too high risk.

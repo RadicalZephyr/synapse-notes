@@ -1,0 +1,2 @@
+Refactoring EntityPageTopViewImpl to create widgets instead of fill in
+the three containers directly

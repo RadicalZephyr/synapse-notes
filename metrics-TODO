@@ -1,0 +1,32 @@
+brain storm about different metrics
+-Search metrics, what kinds of searches, most popular facets, avg
+number of facets
+
+-Project accesses
+--differentiate between clients?
+                maybe, but it seems like the web client is largely
+                covered by Google Analytics.  A metrics project for
+                the R or python client would be neat, but of a totally different
+                scope.  And in practice, most of the same information
+                -- about Synapse usage at least -- can be collected by
+                the repo-services
+
+
+the Metrics Dashboard - 
+
+move user login data out of log files and into... talk to Jon/Bruce/Mike
+convert to MVP structure
+display inactive projects
+display inactive users
+show usage over time
+-turn current profiling metrics on, and push to cloudwatch
+
+
+
+
+notes:
+profiling metrics are in services-repository->profiler.org.sagebio...
+
+need to read about spring's AOP stuff in order to get it
+
+Currently one controller is profiled, probably want all 7 plus more stuff.

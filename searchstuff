@@ -1,0 +1,32 @@
+Thoughts:
+
+JSON compression is out for the moment.  Will deal with when it
+becomes a problem.  Ideally, we should try and detect whether it's
+occurring so that we don't get a really confusing bug report.
+
+taking raw search terms is going away.  So someone has to create the
+new JSON search term to send to the search page.  That seems like a
+job for the Search class?  maybe, that should probably stay small.
+
+Kind of have to flip the call flow of the SearchPresenter on it's
+head, so execute search isn't on the call path of most stuff, only for
+when a new search is goTo'd.  Rearchitecting the class is called for,
+and thus redo'ing the tests.
+
+Things that search currently does:
+text searchs
+json object searchs
+^syn[0-9]*$ redirects to the synapse object
+
+
+
+setPlace is the canonical method for all Presenter's that allow the
+GAM to set the place.  This can't go away it just needs to get
+simpler.  The question is how simple can it get?  Because this is the
+actual entry point to the class.
+
+
+Need to clean up unit tests...  setSearchTerm no longer needs to be
+tested because it has no logic.  And setSearchTerm is no longer the
+appropriate entry point to test the logic contained in setPlace
+

@@ -1,0 +1,20 @@
+keep working on testCronExpression.  Cron expression is throwing a parse error...
+
+Part of the problem seems to be, that the way that I added to the
+spring configuration is causing pretty much the entire stack to be
+reloaded and other parts overridden far more rapidly than it should
+be.  
+
+
+
+Our Spring Configuration is done wrong. It's causing severe test
+run-time increases as we load and reload the application context.
+
+First candidate for refactoring:
+there is a class
+org.springframework.beans.factory.config.PropertyPlaceholderConfigurer
+that could totally replace our StackProperties project.  It would
+allow us to specify the properties in the stack.properties file with
+${prop.name}.  This would obviate the need for importing the
+stackConfiguration spb.xml file for everything that needed it.
+

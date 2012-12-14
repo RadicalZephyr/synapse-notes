@@ -1,0 +1,31 @@
+Wrap other bootstrap plugins
+-tooltip
+-popover
+-alert
+button
+collapse
+
+Factor the Map into an object
+
+implement this interface
+					ToolTip tip = DisplayUtils.tooltip(constraint.getValue());
+					tip.placement("right");
+					tip.applyTo(a);
+
+
+-------the JSNI implementation is good for now.  Check this rev in to
+       the dev branch, and then start working on wrapping alerts in a
+       GWT widget (probably do button and collapse that way too!)
+
+Think about how to do metric gathering and logfile parsing.  Look at
+map-reduce algorithm etc. etc.
+
+SearchPresenter needs to be refactored to have one internal and
+external function that kicks off a new search, that way there's 
+a consistency of how it's accessed.  Right now, setSearchTerm() seems
+to be that entry point, except that setPlace calls that, and is used
+internally.
+
+Actually, it seems like setPlace is just done wrong, doing so much
+other logic etc.  Really, setPlace should just set the place and be
+able to be reentrant.

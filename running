@@ -1,0 +1,28 @@
+In order to build and run the web client:
+
+in synapsewebclient/ run
+mvn clean compile -Dmaven.test.skip=true
+
+Assuming that the database for the local backend is all populated and
+stuff (which also needs to be documented, but isn't yet).
+
+then in trunk/integration-test/ run
+
+mvn cargo:run
+
+MAGIC!!!
+...  Clearly there is a step missing here...
+And the step is run the project in dev-mode from eclipse!!  a la the wiki boostrap page
+
+to populate said database
+
+MYSQL
+drop database devgeoff;
+create database devgeoff;
+
+in trunk/integration-test/ run
+mvn -Dit.test=IT100BackupRestoration verify
+
+
+I should rewrite the portion of the bootstrapping wiki page to mention
+explicitly that you need maven 3.0.3, not 2

@@ -1,0 +1,3 @@
+curl -i -d '{"email": "geoff.shannon@sagebase.org", "password": "KDKbItw3vc3b"}' -H Content-Type:application/json -H Accept:application/json 'https://auth-prod-b.sagebase.org/auth/v1/session'
+
+curl -i -H sessionToken:nB9WdmhWnypifHFCIcHnWw00 -H Accept:application/json 'https://repo-prod-b.sagebase.org/repo/v1/user'

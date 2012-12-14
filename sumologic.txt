@@ -1,0 +1,56 @@
+Questions for Sumo Logic
+
+Love to see a demo.
+
+What's the recommended solution for setting up collectors for
+elastic Beanstalks?
+-prefer not to use AMI's, but...
+-External log collecting works? Or no?
+
+We currently have logs that need a bit of pre-processing before they
+really have all the information they need.  What's the recommendation here?
+-one idea, similar pipeline to what we have now, but the pre-process
+step happens in the collation.
+
+Experience with syslog?  Effectiveness? A barrier to performance?
+
+Exporting capabilities.  We're interested in capturing long-term
+statistical trends as well.
+
+
+Real-time: about 15 seconds lag
+
+Collector's grab remote logs
+-script adding a source.  We can roll the Collector jar into our war
+files.
+
+
+Ok, the plan is to try and start integrating the collector's into our
+War files.  Declare it as a dependency, (probably provided scope) and
+package it up, with some wrapper.conf files to configure it.
+
+
+Plan: Package the tar.gz file as a maven project.  Email/link the file
+to John Hill along with the pom for the project (or at least the
+group-id and version number).
+
+Then, specify it as a dependency of repo, do an install, do an
+integration test run make sure that the tar file comes down.
+
+
+Then, write a tomcat ServletContextListener
+
+
+OK.  For the moment, we put it more or less on the back-burner.  The
+necissity of using the AMI is a damper for us.  So start looking at
+what it would take to do some other method.
+
+One option not looked at yet.  Writing a log appender that pushes data
+into DynamoDB so we have a database.  No more fooling with file size
+or collation (to some extent).  But ease of looking at the data is a
+bit compromised.
+
+
+Also, for dealing with the log files, change the configuration so it's
+not so dumb anymore (no gzipping at least), and then manually un-gzip
+all the files already in s3

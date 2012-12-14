@@ -1,0 +1,11 @@
+Lock the node in the manager level, single call to DAO, in the dao
+update the etag and the version number, determine what the new version
+number is.
+
+Unit test on manager and dao, annotations on both dao and manager
+
+also, endpoint is a POST to /entity/{id}/promoteVersion/{versionNum}
+return the same as /entity/{id}/version/{vN} for the new head version
+
+libdynamo test failure
+testGetRoot(org.sagebionetworks.dynamo.dao.NodeTreeDaoReadAutowireTest): The root already exists but on a different node. The root is 300601006314. The change node is 617456888000

@@ -1,0 +1,8 @@
+Plan:
+
+Use different round-robin persistence mechanisms to persist the data
+aggregated from the log files and see which one gives us what we want.
+
+I want tooling to do:
+be able to push the data from one parsed log file into the currently
+being tested storage mechanism.  Then be able to look at the resulting database.

@@ -1,0 +1,47 @@
+It seems like usage metrics right now do data aggregation about
+projects.  Instead of having the system dump interesting interactions
+to a file or database, when these services are called it checks the
+projects etc. for characteristics and generates the info.
+
+An alternative method would be to log the data to a file on a daily
+basis, then have cron jobs run data extraction routines on the files
+daily, and store the data in the database.  Then, the data can be
+aggregated, by month, day, year, averages etc.  Because for time
+related metrics once the day, month, year has passed, that usage is
+static/final.
+
+Are there metrics that we would like to know about that can't be
+captured like this?
+
+
+Synopsis of current metrics - 
+
+There seems to be a literal scoring of projects according to certain
+criteria, like number of users, number of organizations etc.
+
+This all seems like business logic that shouldn't be hardwired into
+the code, but broken out somehow.
+
+
+Several main categories of metrics.  
+Snapshot
+Recurring data points (referential through time)
+Ongoing totals
+
+So some examples:
+Snapshot - Current state of active vs inactive users, active vs
+inactive projects.  These are 'snapshot' because we don't care what
+users were considered active two months ago, we care about right now.
+
+Recurring - Number of users logged in, number of projects updated.
+Interestingly, this uses the same data as the current active/inactive
+metrics, but is computed in a totally different way.  It's relevant to
+have this information for getting a high level view of usage patterns,
+and depending on the granularity, can show the difference between
+having more users in one country versus worldwide.
+
+Ongoing totals - to stick with the same theme, ongoing totals would be
+projects created, total users, and other metrics computed from these
+This is interesting to have as a pure number and as a graph over time,
+so you could get a sense for incoming user spikes, or project creation
+spikes.

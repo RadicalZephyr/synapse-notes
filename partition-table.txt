@@ -1,0 +1,11 @@
+Partition Table for /dev/xvdz
+
+         ---Starting----      ----Ending-----    Start     Number of
+ # Flags Head Sect  Cyl   ID  Head Sect  Cyl     Sector    Sectors
+-- ----- ---- ---- ----- ---- ---- ---- ----- ----------- -----------
+ 1  0x00   51    9     0 0x83   55   40  1448        2048    10483712
+ 2  0x00    0    0     0 0x00    0    0     0           0           0
+ 3  0x00    0    0     0 0x00    0    0     0           0           0
+ 4  0x00    0    0     0 0x00    0    0     0           0           0
+
+1.05MB free at beginning

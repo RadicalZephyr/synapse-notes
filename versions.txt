@@ -1,0 +1,78 @@
+The plan-ish:
+
+Work on exposing versioning more fully.  This is going to be bring it
+into the entity page, maybe with a link that brings up a pop-over of
+links to the other versions (maybe this is a paginated pop-over?)
+
+maybe there's an option to just view all of the versions in a
+non-popover.  Also, should probably contain a link to create a new
+version.  I think this should pop up the entity editor, because it
+doesn't make much sense to "version" something and keep it exactly the
+same.  OTOH, I think versioning should happen totally automatically
+based on changes to the entity (annotations, properties etc.)
+
+While doing this think about bringing the download button into this
+area too.  Locations are supposedly the same entity in possibly
+multiple different places.  Think about resolving links to multiple
+location types.
+
+feedback from frederic:
+  maybe no description, because it could be long, instead/in addition
+  simply have the modified-by and date (shorter version of date)
+
+names seem redundant, treat them like tags
+expose the ability to promote an old version to current
+
+comments definitely wanted (by some) Larsson doesn't really think
+they're universally useful.
+
+
+
+More feedback from larsson on edit label/comment
+-- it looks identical to the annotation page (seems like a specialized annotation).
+Maybe comments should be there, labels are just super confusing.
+
+Clearly there needs to be a feature design/review meeting about what
+versions should be and how it should function (Mette, Larsson, Brian,
+Erich, Jon Hill, Mike, me).
+
+This starts today with the talk with Mette.
+
+
+Talked with Dave.
+First, add the ability to specify a comment (/label too?) in the file
+upload.  Actually, John's changes to Locationable are going to make
+this work obsoletish/easier/totally different.  Thus, back-burner.
+
+- Use the WidgetMenu class to provide the promote and delete
+capability for each version.  Do this inline similar to how the
+SnapshotWidget does it (at the end, separate column).
+
+Also, change the Label to display as Version _# (maybe get rid of
+Version column Header), and then make that the Hyperlink.  The top
+version (already being detected), can have the edit icon (gear?) which
+allows you to specify the comment and label.
+
+Another nice feature-add would be having the Modified On date have a
+tooltip with the full date (or time rather).
+
+
+---- Refactor
+As part of these changes, refactoring the relationship of
+EntityPageTop and TitleWidget and EntityMetadata.  EntityMetadata and
+should get promoted into a MVP widget that's an injected component of
+EPTVI.  TitleWidget meanwhile probably gets subsumed by the expanding
+EntityMetadata.  TW is really the limiting factor there, passing
+through data through it is unnecessary and time-consuming (coding-wise).
+
+
+---- Updates to Javaclient
+deleteEntityForVersion isn't exposed in the java client
+it doesn't look like promoting an entity to current is even supported
+REST service side...
+
+
+---- Demo day
+
+Consensus - don't auto-version except on md5 sum change, allow
+explicit versioning

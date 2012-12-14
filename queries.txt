@@ -1,0 +1,107 @@
+active projects query
+
+English:
+Get all the projects that were updated in some way within the last
+thirty days.
+
+For every project:
+    Determine if two or more users supplied updates to it
+    For those projects:
+        Determine if those users represent two or more organizations
+
+
+Sub-parts:
+For every project:
+    the  unique list of all users who contributed within window
+    (last 30 days).
+
+    
+differences between the github presentation and our question.  They
+are asking "What is the number of seven-day active projects?"
+
+We are asking "Which are the 30 day active projects?"
+So the simple question is "what are the one day active projects?"
+
+I have the answer to: "Give me the list of all individual combinations
+of actors, repositories and days" 
+
+This is the query for it:
+SELECT repository_url, 
+       day, 
+       Count(actor) AS active_count 
+FROM   (SELECT repository_url, 
+               actor, 
+               Format_utc_usec(Utc_usec_to_day( 
+                               Parse_utc_usec(repository_pushed_at))) 
+                      AS day 
+        FROM   [publicdata:samples.github_timeline] 
+        WHERE  type = "pushevent" 
+               AND repository_pushed_at != "null" 
+               AND repository_url != "" 
+        GROUP  BY repository_url, 
+                  day, 
+                  actor 
+        ORDER  BY repository_url, 
+                  day ASC) 
+
+GROUP  BY repository_url, 
+          day
+HAVING active_count >= 2 ;
+
+
+This query is supposed to return the list of 30-day active projects,
+analogous to the seven-day active query that is shown in the video: 
+
+SELECT rad.actor as actor, rad.repository_url as repo, alldays.day as day 
+FROM (
+     SELECT utc_usec_to_day(parse_utc_usec(created_at)) AS day, 1 as active
+     FROM [publicdata:samples.github_timeline]
+     WHERE type="PushEvent" AND repository_url != ""
+     GROUP BY day
+     ) as alldays
+JOIN ( 
+     SELECT repository_url, actor, 
+            Utc_usec_to_day(Parse_utc_usec(created_at)) AS day,
+            1 as active 
+     FROM   [publicdata:samples.github_timeline] 
+     WHERE  type = "pushevent" 
+            AND repository_pushed_at != "null" 
+            AND repository_url != "" 
+     GROUP  BY repository_url, day, actor 
+     ) as rad
+ON rad.active == alldays.active
+WHERE alldays.day >= rad.day AND alldays.day - rad.day < 30*24*60*60*1000
+GROUP BY repo, actor, day;
+
+but it gets a "response too large"
+
+This is a so-called "sampled" version of the query that runs
+reasonably quickly, and returns a result.  It's not clear what this
+result is though, and if it is actually useful.
+SELECT rad.actor as actor, rad.repository_url as repo, alldays.day as day
+FROM (
+     SELECT utc_usec_to_day(parse_utc_usec(created_at)) AS day, 1 as active
+     FROM [publicdata:samples.github_timeline]
+     WHERE type="PushEvent" AND repository_url != ""
+     GROUP BY day
+     HAVING hash(day) % 10 == 0
+     ) as alldays
+JOIN ( 
+     SELECT repository_url, actor, 
+            Utc_usec_to_day(Parse_utc_usec(created_at)) AS day,
+            1 as active 
+     FROM   [publicdata:samples.github_timeline] 
+     WHERE  type = "PushEvent" 
+            AND repository_pushed_at != "null" 
+            AND repository_url != "" 
+            AND hash(actor) % 10 == 0
+     GROUP  BY repository_url, day, actor 
+     ) as rad
+ON rad.active == alldays.active
+WHERE alldays.day >= rad.day AND alldays.day - rad.day < 30*24*60*60*1000
+GROUP BY repo, actor, day 
+limit 10;
+
+Removing the "HAVING hash" on the alldays table causes the query to
+take about 100 secs to run (vs 17 for the other one).  It's not clear
+that this is substantially richer in data that it's worth the time lag.

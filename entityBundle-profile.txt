@@ -1,0 +1,7 @@
+Profiled the entity bundle call (or rather, the getUsersPaginated
+call, the speed bottleneck is definitely in the DAO layer.
+
+Proposal:
+add a new service, getUsersByPrefixPaginated(string, [pagination
+args])
+this could then be backed by a more efficient data structure
